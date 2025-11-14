@@ -1,0 +1,26 @@
+{
+  "name": "web-tech",
+  "version": "1.0.0",
+  "description": "## Лабораторные работы (ветки)",
+  "main": "index.js",
+  "scripts": {
+  "lint:html": "htmlhint index.html",
+  "lint:js": "eslint script.js",
+  "lint": "npm run lint:html && npm run lint:js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ZZAY-GIT/web-tech.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ZZAY-GIT/web-tech/issues"
+  },
+  "homepage": "https://github.com/ZZAY-GIT/web-tech#readme",
+  "devDependencies": {
+    "eslint": "^9.39.1",
+    "htmlhint": "^1.7.1"
+  }
+}
