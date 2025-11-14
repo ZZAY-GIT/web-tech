@@ -1,0 +1,126 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    background: #fff;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header {
+    padding: 30px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #eee;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+.nav__list {
+    list-style: none;
+    display: flex;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.nav__list a {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav__list a:hover {
+    color: #e74c3c;
+}
+
+.main {
+    padding: 20px 0;
+    margin-bottom: 60px;
+}
+
+.section {
+    margin-bottom: 50px;
+}
+
+.section h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 18px;
+}
+
+.img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.advantages-list {
+    padding-left: 25px;
+    margin-top: 15px;
+}
+
+.advantages-list li {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.top-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.top-table th,
+.top-table td {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.footer {
+    background-color: black;
+    color: white;
+    padding: 30px 0;
+    margin-top: 50px;
+}
+
+.footer p {
+    font-size: 16px;
+    text-align: center;
+}
+
+.footer a {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #e74c3c;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+    color: #fff;
+}
