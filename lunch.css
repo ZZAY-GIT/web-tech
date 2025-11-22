@@ -1,34 +1,9 @@
-/* Футер всегда внизу экрана */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.main {
-    flex: 1;
-}
-
-/* Навигация — флекс */
-.nav__list {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-/* Активная ссылка */
-#active {
-    color: tomato !important;
-}
-
-/* Сетка блюд */
 .dishes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 }
 
-/* Карточка блюда */
 .dish {
     display: flex;
     flex-direction: column;
@@ -39,95 +14,70 @@ body {
     background: white;
 }
 
-.dish img {
-    width: 100%;
-    border-radius: 35px;
-}
-
-.dish p:nth-child(2) { /* цена */
-    font-size: 1.5em;
-    margin: 10px 0 5px;
-}
-
-.dish p:nth-child(3) { /* название */
-    font-size: 1.2em;
-    margin: 0 0 5px;
-    flex-grow: 1; /* чтобы кнопки были на одном уровне */
-}
-
-.dish p:nth-child(4) { /* вес */
-    color: gray;
-    margin: 0 0 10px;
-}
-
-.dish button {
-    background: #f1eee9;
-    padding: 10px 30px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    margin-top: auto;
-}
-
-/* Hover эффекты */
 .dish:hover {
     border: 2px solid tomato;
 }
 
 .dish:hover button {
     background: tomato;
-    color: white;
 }
 
-/* Адаптивность */
+.dish img {
+    width: 100%;
+    border-radius: 35px;
+}
+
+.dish p:first-of-type {
+    font-size: 1.5em;
+    margin: 10px 0 5px 0;
+}
+
+.dish p:nth-of-type(2) {
+    font-size: 1.2em;
+    margin: 0 0 5px 0;
+    flex-grow: 1;
+}
+
+.dish p:nth-of-type(3) {
+    color: gray;
+    margin: 0 0 10px 0;
+}
+
+.dish button {
+    background: #f1eee9;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    margin-top: auto;
+    color: #000;
+}
+
+section h2 {
+    margin-bottom: 20px;
+}
+
 @media (max-width: 800px) {
     .dishes {
         grid-template-columns: repeat(2, 1fr);
     }
-    .nav__list {
+    nav {
         justify-content: space-between;
-    }
-    .header h1 {
-        text-align: center;
     }
 }
 
 @media (max-width: 600px) {
-    .dishes {
-        grid-template-columns: 1fr;
+    h1 {
+        text-align: center;
     }
-    .nav__list {
+    nav {
         flex-direction: column;
         align-items: center;
     }
-    .nav__list a {
+    nav a {
         font-size: 20px;
     }
-    .section h2 {
-        text-align: center;
-    }
-}
-
-/* Адаптивность главной страницы */
-@media (max-width: 800px) {
-    .img {
-        width: 500px;
-    }
-}
-
-@media (max-width: 600px) {
-    .img {
-        width: 100%;
-    }
-    .top-table th,
-    .top-table td {
-        font-size: 14px;
-    }
-}
-
-@media (max-width: 400px) {
-    .top-table th,
-    .top-table td {
-        font-size: 12px;
+    .dishes {
+        grid-template-columns: 1fr;
     }
 }
