@@ -1,34 +1,9 @@
-/* Футер всегда внизу экрана */
-body {
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-}
-
-.main {
-    flex: 1;
-}
-
-/* Навигация — флекс */
-.nav__list {
-    display: flex;
-    gap: 15px;
-    flex-wrap: wrap;
-}
-
-/* Активная ссылка */
-#active {
-    color: tomato !important;
-}
-
-/* Сетка блюд */
 .dishes {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 10px;
 }
 
-/* Карточка блюда */
 .dish {
     display: flex;
     flex-direction: column;
@@ -39,95 +14,221 @@ body {
     background: white;
 }
 
-.dish img {
-    width: 100%;
-    border-radius: 35px;
-}
-
-.dish p:nth-child(2) { /* цена */
-    font-size: 1.5em;
-    margin: 10px 0 5px;
-}
-
-.dish p:nth-child(3) { /* название */
-    font-size: 1.2em;
-    margin: 0 0 5px;
-    flex-grow: 1; /* чтобы кнопки были на одном уровне */
-}
-
-.dish p:nth-child(4) { /* вес */
-    color: gray;
-    margin: 0 0 10px;
-}
-
-.dish button {
-    background: #f1eee9;
-    padding: 10px 30px;
-    border-radius: 10px;
-    border: none;
-    cursor: pointer;
-    margin-top: auto;
-}
-
-/* Hover эффекты */
 .dish:hover {
     border: 2px solid tomato;
 }
 
 .dish:hover button {
     background: tomato;
-    color: white;
 }
 
-/* Адаптивность */
+.dish img {
+    width: 100%;
+    border-radius: 35px;
+}
+
+.dish p:first-of-type {
+    font-size: 1.5em;
+    margin: 10px 0 5px 0;
+}
+
+.dish p:nth-of-type(2) {
+    font-size: 1.2em;
+    margin: 0 0 5px 0;
+    flex-grow: 1;
+}
+
+.dish p:nth-of-type(3) {
+    color: gray;
+    margin: 0 0 10px 0;
+}
+
+.dish button {
+    background: #f1eee9;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    margin-top: auto;
+    color: #000;
+}
+
+.order-section {
+    padding: 60px 0;
+    background: #fff;
+}
+
+.order-title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 50px;
+    color: #000;
+}
+
+.order-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+}
+
+.order-form h3 {
+    font-size: 20px;
+    margin-bottom: 25px;
+    color: #000;
+    font-weight: 500;
+}
+
+.order-form label {
+    display: block;
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 8px;
+    font-weight: normal;
+}
+
+.order-form input[type="text"],
+.order-form input[type="email"],
+.order-form input[type="tel"],
+.order-form select,
+.order-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 16px;
+    color: #000;
+    box-sizing: border-box;
+}
+
+.order-form select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3e%3cpath fill='%23333' d='M0 0l6 8 6-8z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+}
+
+.order-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.checkbox-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    font-size: 15px;
+}
+
+.checkbox-line input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+.delivery-group {
+    margin: 20px 0;
+}
+
+.delivery-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.delivery-group input[type="radio"] {
+    width: 18px;
+    height: 18px;
+}
+
+.hint {
+    font-size: 14px;
+    color: #666;
+    margin-top: 6px;
+    font-style: italic;
+}
+
+#delivery_time {
+    margin-top: 10px;
+}
+
+.form-buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.form-buttons button {
+    padding: 12px 30px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.form-buttons button[type="submit"] {
+    background: #000;
+    color: #fff;
+    border: none;
+}
+
+.form-buttons button:hover {
+    opacity: 0.9;
+}
+
 @media (max-width: 800px) {
     .dishes {
         grid-template-columns: repeat(2, 1fr);
     }
-    .nav__list {
+    nav {
         justify-content: space-between;
-    }
-    .header h1 {
-        text-align: center;
     }
 }
 
 @media (max-width: 600px) {
-    .dishes {
-        grid-template-columns: 1fr;
+    h1 {
+        text-align: center;
     }
-    .nav__list {
+    nav {
         flex-direction: column;
         align-items: center;
     }
-    .nav__list a {
+    nav a {
         font-size: 20px;
     }
-    .section h2 {
-        text-align: center;
+    .dishes {
+        grid-template-columns: 1fr;
     }
 }
 
-/* Адаптивность главной страницы */
-@media (max-width: 800px) {
-    .img {
-        width: 500px;
+@media (max-width: 900px) {
+    .order-form {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .form-buttons {
+        justify-content: center;
     }
 }
 
 @media (max-width: 600px) {
-    .img {
-        width: 100%;
+    .order-form {
+        padding: 25px;
     }
-    .top-table th,
-    .top-table td {
-        font-size: 14px;
+    .dishes {
+        grid-template-columns: 1fr;
     }
-}
-
-@media (max-width: 400px) {
-    .top-table th,
-    .top-table td {
-        font-size: 12px;
+    .section h2 {
+        text-align: center;
     }
 }
