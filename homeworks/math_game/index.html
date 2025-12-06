@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Математическая Игра</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="game-container">
+        <header>
+            <h1>Math Game</h1>
+        </header>
+
+        <main>
+            <!-- Экран начала игры -->
+            <section id="start-screen" class="screen active">
+                <h2>Добро пожаловать в Математическую Игру!</h2>
+                <p>Ответьте на вопросы, чтобы пройти все уровни сложности.</p>
+                <button id="start-button">Начать игру</button>
+            </section>
+
+            <!-- Основной экран игры -->
+            <section id="game-screen" class="screen">
+                <div class="game-info">
+                    <div class="info-item">
+                        <span id="level-display">Level: Начальный</span>
+                    </div>
+                    <div class="info-item">
+                        <span id="timer-display">Time left: 5:00</span>
+                    </div>
+                </div>
+                
+                <div class="question-area">
+                    <p id="question-display">2 * 13</p>
+                    <input type="text" id="answer-input" placeholder="Напр.: 42, true, да, +" autocomplete="off">
+                    <button id="submit-button">Submit</button>
+                </div>
+
+                <div class="feedback-area">
+                    <p id="feedback-display"></p>
+                </div>
+                
+                <div class="score-area">
+                    <span id="correct-display">Correct: 0</span>
+                    <span id="incorrect-display">Incorrect: 0</span>
+                </div>
+            </section>
+
+            <!-- Экран завершения уровня -->
+            <section id="level-complete-screen" class="screen">
+                <h2>Уровень пройден!</h2>
+                <p id="level-complete-message">Вы ответили правильно на 8 из 10 вопросов.</p>
+                <button id="next-level-button">Следующий уровень</button>
+            </section>
+
+            <!-- Экран победы -->
+            <section id="game-won-screen" class="screen">
+                <h2>Поздравляем!</h2>
+                <p>Вы успешно прошли все уровни игры!</p>
+                <button id="restart-won-button">Играть снова</button>
+            </section>
+
+            <!-- Экран проигрыша -->
+            <section id="game-over-screen" class="screen">
+                <h2>Игра окончена</h2>
+                <p id="game-over-message">К сожалению, вы не набрали достаточно правильных ответов.</p>
+                <div class="game-over-buttons">
+                    <button id="restart-button">Попробовать снова</button>
+                    <button id="exit-button">Выйти</button>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
