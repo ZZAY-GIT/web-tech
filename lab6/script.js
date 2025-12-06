@@ -77,8 +77,10 @@ function renderDishes(containers) {
             card.className = 'dish';
             card.dataset.dish = dish.keyword;
 
+            // Проверяем, выбрано ли это блюдо
             const isSelected = selected[dish.category]?.keyword === dish.keyword;
 
+            // Добавляем класс для подсветки
             if (isSelected) {
                 card.classList.add('selected');
             }
@@ -97,7 +99,6 @@ function renderDishes(containers) {
             btn.onclick = (e) => {
                 e.stopPropagation();
                 selected[dish.category] = dish;
-
                 const selectMap = {
                     soup: 'soup',
                     main: 'main_dish',
@@ -175,6 +176,61 @@ function updateOrderSummary() {
     summary.innerHTML = html;
 }
 
+function showNotification(message) {
+    document.querySelectorAll('.notification-overlay').forEach(el => el.remove());
+
+    const overlay = document.createElement('div');
+    overlay.className = 'notification-overlay';
+
+    overlay.innerHTML = `
+        <div class="notification">
+            <h3>Ошибка заказа</h3>
+            <p>${message}</p>
+            <button>Окей</button>
+        </div>
+    `;
+
+    document.body.appendChild(overlay);
+
+    overlay.querySelector('button').onclick = () => overlay.remove();
+    overlay.onclick = (e) => {
+        if (e.target === overlay) overlay.remove();
+    };
+}
+
+document.querySelector('form').addEventListener('submit', function(e) {
+    const hasSoup = !!selected.soup;
+    const hasMain = !!selected.main;
+    const hasSalad = !!selected.salad;
+    const hasDrink = !!selected.drink;
+
+    const validCombos = [
+        hasSoup && hasMain && hasSalad && hasDrink,
+        hasSoup && hasMain && hasDrink,
+        hasSoup && hasSalad && hasDrink,
+        hasMain && hasSalad && hasDrink,
+        hasMain && hasDrink
+    ];
+
+    if (!validCombos.includes(true)) {
+        e.preventDefault();
+
+        if (!hasSoup && !hasMain && !hasSalad && !hasDrink) {
+            showNotification('Ничего не выбрано. Выберите блюда для заказа');
+        } else if (!hasDrink) {
+            showNotification('Выберите напиток');
+        } else if (hasSoup && !hasMain && !hasSalad) {
+            showNotification('Выберите главное блюдо/салат/стартер');
+        } else if (hasSalad && !hasSoup && !hasMain) {
+            showNotification('Выберите суп или главное блюдо');
+        } else if (!hasMain && !hasSalad) {
+            showNotification('Выберите главное блюдо');
+        } else {
+            showNotification('Выбранные блюда не соответствуют ни одному ланчу');
+        }
+    }
+});
+
 document.querySelector('button[type="reset"]')?.addEventListener('click', () => {
     setTimeout(() => {
         selected = { soup: null, main: null, drink: null, salad: null, dessert: null };
@@ -192,3 +248,4 @@ document.querySelector('button[type="reset"]')?.addEventListener('click', () => 
         updateOrderSummary();
     }, 100);
 });
+

@@ -1,0 +1,41 @@
+[
+  // СУПЫ
+  { "keyword": "gazpacho", "name": "Гаспачо", "price": 195, "category": "soup", "kind": "veg", "count": "350 г", "image": "menu/soups/gazpacho.jpg" },
+  { "keyword": "mushroom_soup", "name": "Грибной суп-пюре", "price": 185, "category": "soup", "kind": "veg", "count": "330 г", "image": "menu/soups/mushroom_soup.jpg" },
+  { "keyword": "norwegian_soup", "name": "Норвежский суп", "price": 270, "category": "soup", "kind": "fish", "count": "330 г", "image": "menu/soups/norwegian_soup.jpg" },
+  { "keyword": "chicken_soup", "name": "Куриный суп", "price": 220, "category": "soup", "kind": "meat", "count": "320 г", "image": "menu/soups/chicken.jpg" },
+  { "keyword": "ramen", "name": "Рамен", "price": 350, "category": "soup", "kind": "meat", "count": "400 г", "image": "menu/soups/ramen.jpg" },
+  { "keyword": "tomyum", "name": "Том Ям", "price": 380, "category": "soup", "kind": "fish", "count": "380 г", "image": "menu/soups/tomyum.jpg" },
+
+  // ГЛАВНЫЕ БЛЮДА
+  { "keyword": "fried_potatoes", "name": "Жареная картошка с грибами", "price": 150, "category": "main", "kind": "veg", "count": "250 г", "image": "menu/main_course/friedpotatoeswithmushrooms1.jpg" },
+  { "keyword": "lasagna", "name": "Лазанья", "price": 385, "category": "main", "kind": "meat", "count": "310 г", "image": "menu/main_course/lasagna.jpg" },
+  { "keyword": "chicken_cutlets", "name": "Котлеты с пюре", "price": 225, "category": "main", "kind": "meat", "count": "280 г", "image": "menu/main_course/chickencutletsandmashedpotatoes.jpg" },
+  { "keyword": "shrimp_pasta", "name": "Паста с креветками", "price": 420, "category": "main", "kind": "fish", "count": "320 г", "image": "menu/main_course/shrimppasta.jpg" },
+  { "keyword": "fish_rice", "name": "Рыба с рисом", "price": 390, "category": "main", "kind": "fish", "count": "300 г", "image": "menu/main_course/fishrice.jpg" },
+  { "keyword": "pizza", "name": "Пицца Маргарита", "price": 450, "category": "main", "kind": "veg", "count": "500 г", "image": "menu/main_course/pizza.jpg" },
+
+  // НАПИТКИ
+  { "keyword": "orange_juice", "name": "Апельсиновый сок", "price": 120, "category": "drink", "kind": "cold", "count": "300 мл", "image": "menu/beverages/orangejuice.jpg" },
+  { "keyword": "apple_juice", "name": "Яблочный сок", "price": 90, "category": "drink", "kind": "cold", "count": "300 мл", "image": "menu/beverages/applejuice.jpg" },
+  { "keyword": "carrot_juice", "name": "Морковный сок", "price": 110, "category": "drink", "kind": "cold", "count": "300 мл", "image": "menu/beverages/carrotjuice.jpg" },
+  { "keyword": "tea", "name": "Чай чёрный", "price": 80, "category": "drink", "kind": "hot", "count": "200 мл", "image": "menu/beverages/tea.jpg" },
+  { "keyword": "green_tea", "name": "Зелёный чай", "price": 100, "category": "drink", "kind": "hot", "count": "200 мл", "image": "menu/beverages/greentea.jpg" },
+  { "keyword": "cappuccino", "name": "Капучино", "price": 180, "category": "drink", "kind": "hot", "count": "250 мл", "image": "menu/beverages/cappuccino.jpg" },
+
+  // САЛАТЫ И СТАРТЕРЫ
+  { "keyword": "caesar", "name": "Цезарь с курицей", "price": 320, "category": "salad", "kind": "meat", "count": "220 г", "image": "menu/salads_starters/caesar.jpg" },
+  { "keyword": "tuna_salad", "name": "Салат с тунцом", "price": 360, "category": "salad", "kind": "fish", "count": "200 г", "image": "menu/salads_starters/tunasalad.jpg" },
+  { "keyword": "caprese", "name": "Капрезе", "price": 290, "category": "salad", "kind": "veg", "count": "180 г", "image": "menu/salads_starters/caprese.jpg" },
+  { "keyword": "salad_egg", "name": "Салат с яйцом", "price": 180, "category": "salad", "kind": "veg", "count": "190 г", "image": "menu/salads_starters/saladwithegg.jpg" },
+  { "keyword": "fries1", "name": "Картофель фри", "price": 150, "category": "salad", "kind": "veg", "count": "150 г", "image": "menu/salads_starters/frenchfries1.jpg" },
+  { "keyword": "fries2", "name": "Картофель фри с сыром", "price": 190, "category": "salad", "kind": "veg", "count": "180 г", "image": "menu/salads_starters/frenchfries2.jpg" },
+
+  // ДЕСЕРТЫ
+  { "keyword": "donuts", "name": "Пончики", "price": 180, "category": "dessert", "kind": "small", "count": "2 шт", "image": "menu/desserts/donuts.jpg" },
+  { "keyword": "donuts2", "name": "Пончики с шоколадом", "price": 220, "category": "dessert", "kind": "small", "count": "2 шт", "image": "menu/desserts/donuts2.jpg" },
+  { "keyword": "baklava", "name": "Баклава", "price": 250, "category": "dessert", "kind": "small", "count": "100 г", "image": "menu/desserts/baklava.jpg" },
+  { "keyword": "cheesecake", "name": "Чизкейк", "price": 320, "category": "dessert", "kind": "medium", "count": "120 г", "image": "menu/desserts/checheesecake.jpg" },
+  { "keyword": "chocolate_cake", "name": "Шоколадный торт", "price": 380, "category": "dessert", "kind": "medium", "count": "150 г", "image": "menu/desserts/chocolatecake.jpg" },
+  { "keyword": "chocolate_cheesecake", "name": "Шоколадный чизкейк", "price": 450, "category": "dessert", "kind": "large", "count": "180 г", "image": "menu/desserts/chocolatecheesecake.jpg" }
+]
