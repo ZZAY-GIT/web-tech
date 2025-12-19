@@ -19,9 +19,8 @@ const containers = {
     dessert: document.getElementById('desserts')
 };
 
-// API base
 const API_BASE = 'https://edu.std-900.ist.mospolytech.ru/labs/api';
-const API_KEY = 'YOUR_API_KEY'; // Замените на свой API ключ из СДО!!!
+const test_string = '37a9b8fd-91a9-4b31-b322-89553ccc0c94';
 
 // === 1. Загрузка блюд с API ===
 async function loadDishes() {
@@ -376,7 +375,7 @@ function setupFormSubmit() {
 
         // Отправка
         try {
-            const response = await fetch(`${API_BASE}/orders?api_key=${API_KEY}`, {
+            const response = await fetch(`${API_BASE}/orders?api_key=${test_string}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data)
