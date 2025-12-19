@@ -352,6 +352,55 @@
     background: tomato;
 }
 
+/* Добавление стилей для нового комбо со скидкой */
+.combo-price-block {
+    margin-top: 15px;
+}
+
+.combo-price-block .old-price {
+    font-size: 16px;
+    color: #999;
+    /* Перечеркнутая старая цена */
+    text-decoration: line-through;
+    margin-bottom: 5px;
+}
+
+.combo-price-block .new-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: tomato;
+    margin-bottom: 10px;
+}
+
+.combo-price-block .select-combo-btn {
+    background: tomato;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.combo-price-block .select-combo-btn:hover {
+    background: darkred;
+}
+
+/* Обновление сетки для 6 комбо */
+@media (min-width: 1001px) {
+    .combos-grid {
+        grid-template-columns: repeat(6, 1fr); /* 6 колонок для 6 комбо */
+    }
+}
+/* Адаптивность для 3 комбо на средних экранах */
+@media (max-width: 1200px) and (min-width: 701px) {
+    .combos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
 /* Анимации */
 @keyframes fadeIn {
     from { opacity: 0; }

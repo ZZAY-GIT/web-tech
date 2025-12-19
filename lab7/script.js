@@ -1,8 +1,15 @@
-// script.js — Лабораторная №7: загрузка блюд с API
-
 let dishes = [];
 let selected = { soup: null, main: null, drink: null, salad: null, dessert: null };
 let activeFilters = {};
+
+// Константы для специального комбо: Пицца, Рамен, Капучино
+const SPECIAL_COMBO_KEYWORDS = {
+    soup: 'ramen', // Рамен (375 ₽)
+    main: 'pizza', // Пицца Маргарита (450 ₽)
+    drink: 'cappuccino' // Капучино (180 ₽)
+};
+const SPECIAL_COMBO_FIXED_PRICE = 600; // Фиксированная цена для нового комбо (скидка)
+// Оригинальная сумма: 375 + 450 + 180 = 1005 ₽
 
 const containers = {
     soup: document.getElementById('soups'),
@@ -12,7 +19,6 @@ const containers = {
     dessert: document.getElementById('desserts')
 };
 
-// === 1. Загрузка блюд с API ===
 async function loadDishes() {
     try {
         const response = await fetch('https://edu.std-900.ist.mospolytech.ru/labs/api/dishes');
@@ -24,6 +30,7 @@ async function loadDishes() {
         renderDishes();
         updateOrderSummary();
         setupFilters();
+        setupSpecialCombo(); 
 
     } catch (error) {
         console.error('Ошибка загрузки блюд:', error);
@@ -72,9 +79,12 @@ function renderDishes() {
             const btn = card.querySelector('.add-btn');
             btn.onclick = (e) => {
                 e.stopPropagation();
+                
+                delete selected.isSpecialCombo;
+                
                 selected[dish.category] = dish;
 
-                // Заполняем скрытые поля
+
                 const map = { soup: 'soup', main: 'main_dish', drink: 'drink', salad: 'salad', dessert: 'dessert' };
                 document.getElementById(map[dish.category]).value = dish.keyword;
 
@@ -91,7 +101,7 @@ function renderDishes() {
     }
 }
 
-// === 3. Фильтры ===
+
 function setupFilters() {
     document.querySelectorAll('.filters button').forEach(btn => {
         btn.addEventListener('click', () => {
@@ -111,32 +121,60 @@ function setupFilters() {
     });
 }
 
-// === 4. Обновление блока заказа ===
+
 function updateOrderSummary() {
     const summary = document.getElementById('order-summary');
     let html = '';
     let total = 0;
     const hasAny = Object.values(selected).some(d => d !== null);
+    
+
+    const isSpecialCombo = selected.isSpecialCombo === true; 
 
     if (!hasAny) {
         html = '<p style="text-align:center;color:#999;font-style:italic;margin:40px 0;">Ничего не выбрано</p>';
     } else {
         const items = [
-            { item: selected.soup, label: 'Суп' },
-            { item: selected.main, label: 'Главное блюдо' },
-            { item: selected.drink, label: 'Напиток' },
+            { item: selected.soup, label: 'Суп', key: SPECIAL_COMBO_KEYWORDS.soup },
+            { item: selected.main, label: 'Главное блюдо', key: SPECIAL_COMBO_KEYWORDS.main },
+            { item: selected.drink, label: 'Напиток', key: SPECIAL_COMBO_KEYWORDS.drink },
             { item: selected.salad, label: 'Салат/стартер' },
             { item: selected.dessert, label: 'Десерт' }
         ];
 
+        let originalComboPrice = 0;
+
         items.forEach(({ item, label }) => {
             if (item) {
                 html += `<p><strong>${label}:</strong> ${item.name} — ${item.price} ₽</p>`;
-                total += item.price;
+                
+
+                if (!isSpecialCombo || item.category === 'dessert') {
+                    total += item.price;
+                }
+                
+
+                if (isSpecialCombo && (item.keyword === SPECIAL_COMBO_KEYWORDS.soup || item.keyword === SPECIAL_COMBO_KEYWORDS.main || item.keyword === SPECIAL_COMBO_KEYWORDS.drink)) {
+                    originalComboPrice += item.price;
+                }
+                
             } else {
                 html += `<p><strong>${label}:</strong> <span style="color:#aaa;">Не выбрано</span></p>`;
             }
         });
+        
+
+        if (isSpecialCombo) {
+            let comboDiscount = originalComboPrice - SPECIAL_COMBO_FIXED_PRICE;
+
+            total = SPECIAL_COMBO_FIXED_PRICE + (selected.dessert ? selected.dessert.price : 0);
+
+            html += `<hr style="border-style: dashed; margin: 15px 0 10px 0;">`;
+
+            html += `<p style="font-size:18px;">Спец. комбо (Пицца, Рамен, Капучино): <span style="text-decoration:line-through; color: #777;">${originalComboPrice} ₽</span></p>`;
+
+            html += `<p style="font-weight:bold; color: green; font-size: 18px;">Цена комбо: ${SPECIAL_COMBO_FIXED_PRICE} ₽ (Скидка: -${comboDiscount} ₽)</p>`;
+        }
 
         html += `<div style="margin-top:25px;padding-top:15px;border-top:2px dashed #ddd;font-size:21px;font-weight:bold;text-align:right;">
                     Итого: <span style="color:tomato;">${total} ₽</span>
@@ -145,14 +183,18 @@ function updateOrderSummary() {
     summary.innerHTML = html;
 }
 
-// === 5. Проверка заказа при отправке ===
+
 document.querySelector('form').addEventListener('submit', function(e) {
     const hasSoup = !!selected.soup;
     const hasMain = !!selected.main;
     const hasSalad = !!selected.salad;
     const hasDrink = !!selected.drink;
+    
+
+    const isSpecialCombo = selected.isSpecialCombo === true; 
 
     const validCombos = [
+        isSpecialCombo,
         hasSoup && hasMain && hasSalad && hasDrink,
         hasSoup && hasMain && hasDrink,
         hasSoup && hasSalad && hasDrink,
@@ -176,7 +218,7 @@ function getErrorMessage() {
     return 'Выбранные блюда не соответствуют ни одному ланчу';
 }
 
-// === 6. Уведомление ===
+
 function showNotification(message) {
     document.querySelectorAll('.notification-overlay').forEach(el => el.remove());
 
@@ -195,10 +237,11 @@ function showNotification(message) {
     overlay.onclick = (e) => { if (e.target === overlay) overlay.remove(); };
 }
 
-// === 7. Сброс ===
+
 document.querySelector('button[type="reset"]')?.addEventListener('click', () => {
     setTimeout(() => {
         selected = { soup: null, main: null, drink: null, salad: null, dessert: null };
+        delete selected.isSpecialCombo; // Сброс флага комбо
         document.querySelectorAll('select').forEach(s => s.value = '');
         document.querySelectorAll('.dish').forEach(c => c.classList.remove('selected'));
         document.querySelectorAll('.filters button').forEach(b => b.classList.remove('active'));
@@ -208,5 +251,58 @@ document.querySelector('button[type="reset"]')?.addEventListener('click', () => 
     }, 100);
 });
 
-// === ЗАПУСК ===
+
+function setupSpecialCombo() {
+    const specialComboCard = document.querySelector('.combo-card[data-combo="special-pizza-ramen"]');
+    if (!specialComboCard) return;
+
+
+    const comboDishes = {
+        soup: dishes.find(d => d.keyword === SPECIAL_COMBO_KEYWORDS.soup),
+        main: dishes.find(d => d.keyword === SPECIAL_COMBO_KEYWORDS.main && d.category === 'main-course'),
+        drink: dishes.find(d => d.keyword === SPECIAL_COMBO_KEYWORDS.drink)
+    };
+    
+
+    const originalPrice = (comboDishes.soup?.price || 0) + (comboDishes.main?.price || 0) + (comboDishes.drink?.price || 0);
+    const oldPriceElement = specialComboCard.querySelector('.old-price');
+    if (oldPriceElement) {
+        oldPriceElement.textContent = `${originalPrice} ₽`;
+    }
+
+    specialComboCard.querySelector('.select-combo-btn')?.addEventListener('click', function() {
+
+        if (!comboDishes.soup || !comboDishes.main || !comboDishes.drink) {
+            showNotification('Не удалось найти одно или несколько блюд для специального комбо в меню.');
+            return;
+        }
+
+
+        selected.soup = null;
+        selected.main = null;
+        selected.drink = null;
+        selected.salad = null;
+        
+
+        selected.soup = comboDishes.soup;
+        selected.main = comboDishes.main;
+        selected.drink = comboDishes.drink;
+        
+
+        selected.isSpecialCombo = true;
+
+
+        document.getElementById('soup').value = selected.soup.keyword;
+        document.getElementById('main_dish').value = selected.main.keyword;
+        document.getElementById('drink').value = selected.drink.keyword;
+        document.getElementById('salad').value = ''; 
+        
+
+        renderDishes(); 
+        updateOrderSummary();
+        showNotification(`Выбран специальный ланч: Пицца, Рамен, Капучино за ${SPECIAL_COMBO_FIXED_PRICE} ₽!`);
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', loadDishes);
