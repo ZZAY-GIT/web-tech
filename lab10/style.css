@@ -1,0 +1,379 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+    background: #fff;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.header {
+    padding: 30px 0;
+    margin-bottom: 40px;
+    border-bottom: 1px solid #eee;
+}
+
+.header h1 {
+    font-size: 28px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 15px;
+    text-align: center;
+}
+
+.nav__list {
+    list-style: none;
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.nav__list a {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: #333;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.nav__list a:hover {
+    color: tomato;
+}
+
+.nav__list a#active {
+    color: tomato;
+    font-weight: 700;
+}
+
+.main {
+    flex: 1;
+    padding: 20px 0;
+    margin-bottom: 60px;
+}
+
+.section {
+    margin-bottom: 50px;
+}
+
+.section h2 {
+    font-size: 22px;
+    font-weight: 700;
+    color: #222;
+    margin-bottom: 18px;
+}
+
+.img {
+    width: 100%;
+    height: 380px;
+    object-fit: cover;
+    border-radius: 12px;
+    margin: 20px 0;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+}
+
+.advantages-list {
+    padding-left: 25px;
+    margin-top: 15px;
+}
+
+.advantages-list li {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.top-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.top-table th,
+.top-table td {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.sticky-panel {
+    position: sticky;
+    bottom: 0;
+    background: #fff;
+    border-top: 1px solid #eee;
+    padding: 15px 0;
+    box-shadow: 0 -4px 12px rgba(0,0,0,0.1);
+    z-index: 10;
+}
+
+.sticky-panel .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.sticky-panel p {
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+}
+
+.sticky-panel a {
+    padding: 10px 20px;
+    background: tomato;
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    transition: background 0.3s;
+}
+
+.sticky-panel a:hover {
+    background: darkred;
+}
+
+.sticky-panel a.disabled {
+    background: #ccc;
+    pointer-events: none;
+}
+
+.remove-btn {
+    background: #f1eee9;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    margin-top: auto;
+    color: #000;
+}
+
+.remove-btn:hover {
+    background: tomato;
+    color: white;
+}
+
+Вот только те стили, которые тебе нужно добавить в конец твоего файла lunch.css (или style.css — куда удобнее). Они обеспечат красивый и адаптивный вид лендинга с Bootstrap 5, используя твою цветовую схему (tomato) и шрифт Roboto.
+CSS
+
+/* === Лендинг: Hero секция === */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('https://images.unsplash.com/photo-1555244162-803834f70033?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat;
+    padding: 150px 0;
+    text-align: center;
+    color: white;
+}
+
+.hero h1 {
+    font-size: 4rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.hero .lead {
+    font-size: 1.5rem;
+    margin-bottom: 40px;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero .btn-lg {
+    padding: 15px 40px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background: tomato;
+    border: none;
+}
+
+.hero .btn-lg:hover {
+    background: #e55a3a;
+}
+
+/* === Преимущества === */
+.advantage-icon {
+    font-size: 4rem;
+    color: tomato;
+    margin-bottom: 20px;
+}
+
+/* === CTA секция === */
+.cta-section {
+    padding: 100px 0;
+    background: tomato;
+    color: white;
+    text-align: center;
+}
+
+.cta-section h2 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
+.cta-section .lead {
+    font-size: 1.4rem;
+    margin-bottom: 40px;
+}
+
+.cta-section .btn {
+    padding: 15px 40px;
+    font-size: 1.3rem;
+    font-weight: 600;
+    background: white;
+    color: tomato;
+    border: 2px solid white;
+}
+
+.cta-section .btn:hover {
+    background: transparent;
+    color: white;
+}
+
+/* === Форма обратной связи и контакты === */
+.contact-section {
+    padding: 100px 0;
+    background: #f8f9fa;
+}
+
+.contact-form {
+    background: white;
+    padding: 40px;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+.contact-info h4,
+.contact-form h4 {
+    font-weight: 700;
+    margin-bottom: 30px;
+    color: #222;
+}
+
+.contact-info p {
+    font-size: 1.1rem;
+    margin-bottom: 15px;
+}
+
+.contact-info a {
+    color: tomato;
+    text-decoration: none;
+}
+
+.contact-info a:hover {
+    text-decoration: underline;
+}
+
+.btn-submit {
+    background: tomato;
+    color: white;
+    padding: 12px 30px;
+    font-weight: 600;
+    border: none;
+}
+
+.btn-submit:hover {
+    background: #e55a3a;
+}
+
+/* === Адаптивность для лендинга === */
+@media (max-width: 768px) {
+    .hero {
+        padding: 100px 0;
+    }
+    .hero h1 {
+        font-size: 3rem;
+    }
+    .hero .lead {
+        font-size: 1.2rem;
+    }
+    .cta-section {
+        padding: 80px 0;
+    }
+    .cta-section h2 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    .hero .lead {
+        font-size: 1.1rem;
+    }
+    .advantage-icon {
+        font-size: 3rem;
+    }
+}
+
+@media (max-width: 800px) {
+    .img {
+        width: 500px;
+    }
+    .nav__list {
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 600px) {
+    .img {
+        width: 100%;
+    }
+    .nav__list {
+        flex-direction: column;
+        align-items: center;
+    }
+    .nav__list a {
+        font-size: 20px;
+    }
+    .top-table th,
+    .top-table td {
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 400px) {
+    .top-table th,
+    .top-table td {
+        font-size: 12px;
+    }
+}
+
+.footer {
+    background-color: black;
+    color: white;
+    padding: 30px 0;
+    margin-top: 50px;
+}
+
+.footer p {
+    font-size: 16px;
+    text-align: center;
+}
+
+.footer a {
+    font-family: 'Roboto', sans-serif;
+    font-size: 16px;
+    color: tomato;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+    color: #fff;
+}

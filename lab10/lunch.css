@@ -1,0 +1,714 @@
+.dishes {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+}
+
+.dish {
+    display: flex;
+    flex-direction: column;
+    padding: 30px 40px;
+    border-radius: 35px;
+    cursor: pointer;
+    filter: drop-shadow(17px 19px 24px rgba(0, 0, 0, 0.13));
+    background: white;
+}
+
+.dish:hover {
+    border: 2px solid tomato;
+}
+
+.dish:hover button {
+    background: tomato;
+}
+
+.dish img {
+    width: 100%;
+    border-radius: 35px;
+}
+
+.dish p:first-of-type {
+    font-size: 1.5em;
+    margin: 10px 0 5px 0;
+}
+
+.dish p:nth-of-type(2) {
+    font-size: 1.2em;
+    margin: 0 0 5px 0;
+    flex-grow: 1;
+}
+
+.dish p:nth-of-type(3) {
+    color: gray;
+    margin: 0 0 10px 0;
+}
+
+.dish button {
+    background: #f1eee9;
+    padding: 10px 30px;
+    border-radius: 10px;
+    cursor: pointer;
+    border: none;
+    margin-top: auto;
+    color: #000;
+}
+
+.order-section {
+    padding: 60px 0;
+    background: #fff;
+}
+
+.order-title {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 50px;
+    color: #000;
+}
+
+.order-form {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    max-width: 1100px;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+}
+
+.order-form h3 {
+    font-size: 20px;
+    margin-bottom: 25px;
+    color: #000;
+    font-weight: 500;
+}
+
+.order-form label {
+    display: block;
+    font-size: 16px;
+    color: #000;
+    margin-bottom: 8px;
+    font-weight: normal;
+}
+
+.order-form input[type="text"],
+.order-form input[type="email"],
+.order-form input[type="tel"],
+.order-form select,
+.order-form textarea {
+    width: 100%;
+    padding: 12px 14px;
+    border: 1px solid #ccc;
+    background: #fff;
+    font-size: 16px;
+    color: #000;
+    box-sizing: border-box;
+}
+
+.order-form select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3e%3cpath fill='%23333' d='M0 0l6 8 6-8z'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+}
+
+.order-form textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+.checkbox-line {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin: 20px 0;
+    font-size: 15px;
+}
+
+.checkbox-line input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+}
+
+.delivery-group {
+    margin: 20px 0;
+}
+
+.delivery-group label {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.delivery-group input[type="radio"] {
+    width: 18px;
+    height: 18px;
+}
+
+.hint {
+    font-size: 14px;
+    color: #666;
+    margin-top: 6px;
+    font-style: italic;
+}
+
+#delivery_time {
+    margin-top: 10px;
+}
+
+.form-buttons {
+    grid-column: 1 / -1;
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 40px;
+}
+
+.form-buttons button {
+    padding: 12px 30px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    background: #fff;
+    cursor: pointer;
+    min-width: 120px;
+}
+
+.form-buttons button[type="submit"] {
+    background: #000;
+    color: #fff;
+    border: none;
+}
+
+.form-buttons button:hover {
+    opacity: 0.9;
+}
+
+.filters {
+    margin: 15px 0;
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.filters button {
+    padding: 10px 18px;
+    border: 2px solid #ddd;
+    background: white;
+    border-radius: 25px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: all 0.3s;
+}
+
+.filters button.active,
+.filters button:hover {
+    background: tomato;
+    color: white;
+    border-color: tomato;
+}
+
+.dish.selected {
+    border: 4px solid tomato !important;
+    transform: scale(1.04);
+    box-shadow: 0 10px 25px rgba(255,99,71,0.35);
+}
+
+.lunch-combos {
+    padding: 60px 0;
+    background: #fff;
+    text-align: center;
+}
+
+.combos-title {
+    font-size: 28px;
+    margin-bottom: 50px;
+    color: #222;
+}
+
+.combos-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 30px;
+    max-width: 1200px;
+    margin: 0 auto;
+    justify-items: center;
+}
+
+.combo-card {
+    background: #f8f9fa;
+    padding: 25px 15px;
+    border-radius: 16px;
+    width: 180px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    transition: transform 0.3s ease;
+}
+
+.combo-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+}
+
+.combo-items {
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+    margin-bottom: 20px;
+}
+
+.combo-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.combo-item img {
+    width: 48px;
+    height: 48px;
+    transition: transform 0.4s ease;
+}
+
+.combo-item:hover img {
+    transform: translateY(-8px) scale(1.25);
+}
+
+.combo-item span {
+    font-size: 14px;
+    color: #333;
+    font-weight: 500;
+}
+
+.combo-dessert {
+    font-size: 13px;
+    color: #666;
+    line-height: 1.4;
+}
+
+.combo-dessert img {
+    width: 36px;
+    height: 36px;
+    display: block;
+    margin: 0 auto 5px;
+}
+
+.combo-dessert small {
+    display: block;
+    font-size: 11px;
+    color: #999;
+    font-style: italic;
+}
+
+.notification-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+    animation: fadeIn 0.3s ease;
+}
+
+.notification {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    border: 4px solid tomato;
+    animation: popIn 0.4s ease;
+}
+
+.notification h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 24px;
+}
+
+.notification p {
+    margin: 0 0 25px 0;
+    font-size: 18px;
+    color: #555;
+}
+
+.notification button {
+    padding: 12px 32px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.notification button:hover {
+    background: tomato;
+}
+
+/* Добавление стилей для нового комбо со скидкой */
+.combo-price-block {
+    margin-top: 15px;
+}
+
+.combo-price-block .old-price {
+    font-size: 16px;
+    color: #999;
+    /* Перечеркнутая старая цена */
+    text-decoration: line-through;
+    margin-bottom: 5px;
+}
+
+.combo-price-block .new-price {
+    font-size: 24px;
+    font-weight: bold;
+    color: tomato;
+    margin-bottom: 10px;
+}
+
+.combo-price-block .select-combo-btn {
+    background: tomato;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.combo-price-block .select-combo-btn:hover {
+    background: darkred;
+}
+
+/* === Таблица заказов (только для orders.html) === */
+.orders-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.orders-table th,
+.orders-table td {
+    padding: 12px 16px;
+    border: 1px solid #ddd;
+    text-align: left;
+}
+
+.orders-table th {
+    background: #f5f5f5;
+    font-weight: 600;
+}
+
+.orders-table .actions {
+    display: flex;
+    gap: 12px;
+    justify-content: center;
+}
+
+.orders-table .actions i {
+    font-size: 20px;
+    cursor: pointer;
+    color: #555;
+    transition: color 0.3s;
+}
+
+.orders-table .actions i:hover {
+    color: tomato;
+}
+
+/* === Модальные окна (подробности, редактирование, удаление) === */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.6);
+    z-index: 1000;
+
+    /* Скрываем по умолчанию */
+    display: none;
+    
+    /* Центрирование (будет работать, когда display станет flex) */
+    justify-content: center;
+    align-items: center;
+}
+
+/* Класс, который делает контейнер видимым и flex-контейнером */
+.modal-overlay.active {
+    display: flex;
+}
+
+/* === Само модальное окно с контентом === */
+.modal-content {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    max-width: 500px;
+    width: 90%;
+    position: relative; /* Нужен для позиционирования кнопки закрытия */
+}
+
+.modal {
+    background: white;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    max-width: 500px;
+    width: 90%;
+    position: relative;
+    animation: popIn 0.3s ease;
+}
+
+.modal h3 {
+    margin: 0 0 20px 0;
+    font-size: 24px;
+    text-align: center;
+    color: #333;
+}
+
+.modal p,
+.modal label {
+    font-size: 16px;
+    margin-bottom: 12px;
+    color: #444;
+}
+
+.modal input,
+.modal textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.modal textarea {
+    height: 100px;
+    resize: vertical;
+}
+
+.modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.modal-buttons button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.modal-buttons .modal-cancel {
+    background: #ddd;
+    color: #333;
+}
+
+.modal-buttons button[type="submit"],
+.modal-buttons #confirm-delete {
+    background: tomato;
+    color: white;
+}
+
+.modal-buttons button:hover {
+    opacity: 0.9;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 28px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: #aaa;
+    line-height: 1;
+}
+
+.close-btn:hover {
+    color: #333;
+}
+
+/* === Уведомления === */
+.notification-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: none; /* скрыто по умолчанию */
+    justify-content: center;
+    align-items: center;
+    z-index: 9999;
+    backdrop-filter: blur(4px);
+}
+
+.notification-overlay.active {
+    display: flex;
+    animation: fadeIn 0.3s ease;
+}
+
+.notification {
+    background: white;
+    padding: 30px 40px;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(0,0,0,0.3);
+    text-align: center;
+    max-width: 420px;
+    width: 90%;
+    border: 4px solid tomato;
+    animation: popIn 0.4s ease;
+}
+
+.notification h3 {
+    margin: 0 0 15px 0;
+    color: #333;
+    font-size: 24px;
+}
+
+.notification p {
+    margin: 0 0 25px 0;
+    font-size: 18px;
+    color: #555;
+}
+
+.notification button {
+    padding: 12px 32px;
+    background: #333;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.notification button:hover {
+    background: tomato;
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Адаптив для модалок */
+@media (max-width: 600px) {
+    .modal, .notification {
+        padding: 20px;
+        margin: 20px;
+    }
+    .modal-buttons {
+        flex-direction: column;
+    }
+    .modal-buttons button {
+        width: 100%;
+    }
+}
+
+/* Обновление сетки для 6 комбо */
+@media (min-width: 1001px) {
+    .combos-grid {
+        grid-template-columns: repeat(6, 1fr); /* 6 колонок для 6 комбо */
+    }
+}
+/* Адаптивность для 3 комбо на средних экранах */
+@media (max-width: 1200px) and (min-width: 701px) {
+    .combos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Анимации */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes popIn {
+    0% { transform: scale(0.7); opacity: 0; }
+    100% { transform: scale(1); opacity: 1; }
+}
+
+/* Адаптивность */
+@media (max-width: 1000px) {
+    .combos-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 700px) {
+    .combos-grid {
+        grid-template-columns: 1fr;
+    }
+    .combo-card {
+        width: 220px;
+    }
+}
+
+@media (max-width: 800px) {
+    .dishes {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    nav {
+        justify-content: space-between;
+    }
+}
+
+@media (max-width: 600px) {
+    h1 {
+        text-align: center;
+    }
+    nav {
+        flex-direction: column;
+        align-items: center;
+    }
+    nav a {
+        font-size: 20px;
+    }
+    .dishes {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 900px) {
+    .order-form {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    .form-buttons {
+        justify-content: center;
+    }
+}
+
+@media (max-width: 600px) {
+    .order-form {
+        padding: 25px;
+    }
+    .dishes {
+        grid-template-columns: 1fr;
+    }
+    .section h2 {
+        text-align: center;
+    }
+}
