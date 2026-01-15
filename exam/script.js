@@ -1,4 +1,4 @@
-const API_BASE = 'http://exam-api-courses.std-900.ist.mospolytech.ru/api';
+const API_BASE = 'https://exam-api-courses.std-900.ist.mospolytech.ru/api';
 const appkkk = '37a9b8fd-91a9-4b31-b322-89553ccc0c94';
 const PER_PAGE = 5;
 
