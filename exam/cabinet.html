@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- Шапка -->
+
     <nav class="navbar navbar-expand-lg navbar-light bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Языковая Школа</a>
@@ -23,10 +23,8 @@
         </div>
     </nav>
 
-    <!-- Уведомления -->
     <div id="notifications" class="container mt-3"></div>
 
-    <!-- Таблица заказов -->
     <section class="container my-5">
         <h2>Ваши заказы</h2>
         <table class="table table-striped" id="orders-table">
@@ -46,12 +44,10 @@
         </nav>
     </section>
 
-    <!-- Футер -->
     <footer class="bg-light py-3 text-center">
         <p>Контакты: info@langschool.ru | +7 (495) 123-45-67</p>
     </footer>
 
-    <!-- Модальное окно для деталей заказа -->
     <div class="modal fade" id="details-modal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -60,7 +56,6 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body" id="details-body">
-                    <!-- Здесь будет динамически подставляться информация -->
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
@@ -69,7 +64,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно подтверждения удаления -->
     <div class="modal fade" id="delete-confirm-modal" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -88,7 +82,6 @@
         </div>
     </div>
 
-    <!-- Модальное окно оформления / редактирования заявки (ТОЧНО ТАКОЕ ЖЕ, КАК В INDEX.HTML) -->
     <div class="modal fade" id="order-modal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -146,7 +139,7 @@
                                 <input class="form-check-input" type="checkbox" id="interactive">
                                 <label class="form-check-label" for="interactive">Интерактивная платформа (+50%)</label>
                             </div>
-                            <div id="auto-discounts" class="mt-2"></div> <!-- Плашки для авто-скидок -->
+                            <div id="auto-discounts" class="mt-2"></div>
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Общая стоимость</label>

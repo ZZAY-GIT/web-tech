@@ -1,14 +1,11 @@
-/* Минимальные стили, Bootstrap в приоритете */
 body {
     font-family: Arial, sans-serif;
 }
 
 .selected-row {
-    background-color: #d1e7dd !important; /* Выделение репетитора */
+    background-color: #d1e7dd !important;
 }
 
 #map {
     border: 1px solid #ccc;
 }
-
-/* Лесенка в коде - всё с отступами */

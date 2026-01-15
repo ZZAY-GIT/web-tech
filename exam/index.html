@@ -9,7 +9,7 @@
     <script src="https://api-maps.yandex.ru/2.1/?apikey=your_yandex_key&lang=ru_RU" type="text/javascript"></script>
 </head>
 <body>
-    <!-- Шапка -->
+
     <nav class="navbar navbar-expand-lg navbar-light bg-primary">
         <div class="container-fluid">
             <a class="navbar-brand" href="#">Языковая Школа</a>
@@ -27,16 +27,13 @@
         </div>
     </nav>
 
-    <!-- Уведомления -->
     <div id="notifications" class="container mt-3"></div>
 
-    <!-- Описание школы -->
     <section id="about" class="container my-5">
         <h2>О нашей школе</h2>
         <p>Мы предлагаем качественные курсы иностранных языков для всех уровней. Наша миссия - сделать изучение языков доступным и интересным.</p>
     </section>
 
-    <!-- Преимущества (Grid) -->
     <section class="container my-5">
         <h2>Преимущества изучения</h2>
         <div class="row">
@@ -46,7 +43,6 @@
         </div>
     </section>
 
-    <!-- Поиск курсов -->
     <section class="container my-5">
         <h2>Поиск курсов</h2>
         <form id="search-courses-form" class="row g-3">
@@ -67,7 +63,6 @@
         </form>
     </section>
 
-    <!-- Курсы -->
     <section id="courses" class="container my-5">
         <h2>Предлагаемые курсы</h2>
         <table class="table table-striped" id="courses-table">
@@ -90,7 +85,6 @@
         </nav>
     </section>
 
-    <!-- Поиск репетиторов -->
     <section class="container my-5">
         <h2>Поиск репетиторов</h2>
         <form id="search-tutors-form" class="row g-3">
@@ -111,7 +105,6 @@
         </form>
     </section>
 
-    <!-- Репетиторы -->
     <section id="tutors" class="container my-5">
         <h2>Доступные репетиторы</h2>
         <table class="table table-striped" id="tutors-table">
@@ -131,7 +124,6 @@
         </table>
     </section>
 
-    <!-- Карта (дополнительно) -->
     <section id="map-section" class="container my-5">
         <h2>Интерактивная карта ресурсов</h2>
         <form id="map-search-form" class="row g-3">
@@ -153,12 +145,10 @@
         <div id="map" style="height: 400px; width: 100%;"></div>
     </section>
 
-    <!-- Футер -->
     <footer class="bg-light py-3 text-center">
         <p>Контакты: info@langschool.ru | +7 (495) 123-45-67</p>
     </footer>
 
-    <!-- Модальное окно для заказа -->
     <div class="modal fade" id="order-modal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -216,7 +206,7 @@
                                 <input class="form-check-input" type="checkbox" id="interactive">
                                 <label class="form-check-label" for="interactive">Интерактивная платформа (+50%)</label>
                             </div>
-                            <div id="auto-discounts" class="mt-2"></div> <!-- Плашки для авто-скидок -->
+                            <div id="auto-discounts" class="mt-2"></div>
                         </div>
                         <div class="mb-3">
                             <label for="price" class="form-label">Общая стоимость</label>

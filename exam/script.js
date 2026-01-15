@@ -1,14 +1,10 @@
-// script.js — ПОЛНОСТЬЮ ГОТОВЫЙ ВАРИАНТ (15 января 2026)
-// Решает все ошибки: openEditOrderModal not defined, currentCourseData null и т.д.
-
 const API_BASE = 'http://exam-api-courses.std-900.ist.mospolytech.ru/api';
-const API_KEY = '37a9b8fd-91a9-4b31-b322-89553ccc0c94';   // ←←← ЗАМЕНИ НА СВОЙ КЛЮЧ ИЗ СДО !!!!
+const appkkk = '37a9b8fd-91a9-4b31-b322-89553ccc0c94';
 const PER_PAGE = 5;
 
-let currentCourseData = null;  // Глобальная переменная для формы и расчёта
+let currentCourseData = null;
 let selectedTutorId = null;
 
-// Уведомления
 function showNotification(message, type = 'success') {
     const container = document.getElementById('notifications');
     if (!container) return;
@@ -21,13 +17,12 @@ function showNotification(message, type = 'success') {
     setTimeout(() => alert.remove(), 5000);
 }
 
-// Загрузка курсов (index.html)
 async function loadCourses(page = 1, searchName = '', searchLevel = '') {
     const tbody = document.getElementById('courses-body');
     if (!tbody) return;
 
     try {
-        const res = await fetch(`${API_BASE}/courses?api_key=${API_KEY}`);
+        const res = await fetch(`${API_BASE}/courses?api_key=${appkkk}`);
         if (!res.ok) throw new Error(await res.text());
 
         let courses = await res.json();
@@ -66,13 +61,12 @@ async function loadCourses(page = 1, searchName = '', searchLevel = '') {
     }
 }
 
-// Загрузка репетиторов
 async function loadTutors(qual = '', exp = '') {
     const tbody = document.getElementById('tutors-body');
     if (!tbody) return;
 
     try {
-        const res = await fetch(`${API_BASE}/tutors?api_key=${API_KEY}`);
+        const res = await fetch(`${API_BASE}/tutors?api_key=${appkkk}`);
         if (!res.ok) throw new Error(await res.text());
 
         let tutors = await res.json();
@@ -104,7 +98,6 @@ function selectTutor(id, name, price) {
     openOrderModal('tutor', id, name, name, null, null, price, null);
 }
 
-// Открытие модалки оформления
 function openOrderModal(type, id, name, teacher, weeks, hoursPerWeek, fee, datesJson) {
     const modalEl = document.getElementById('order-modal');
     if (!modalEl) return;
@@ -161,7 +154,6 @@ function openOrderModal(type, id, name, teacher, weeks, hoursPerWeek, fee, dates
     modal.show();
 }
 
-// Заполнение времени
 function populateTimes(selectedDate) {
     const timeSelect = document.getElementById('start-time');
     if (!timeSelect) return;
@@ -169,7 +161,6 @@ function populateTimes(selectedDate) {
     timeSelect.innerHTML = '<option value="">Выберите время</option>';
     timeSelect.disabled = false;
 
-    // Если есть currentCourseData и startDates — обычная логика для создания
     if (currentCourseData?.startDates?.length > 0 && selectedDate) {
         const times = currentCourseData.startDates
             .filter(dt => dt.startsWith(selectedDate + 'T'))
@@ -189,15 +180,13 @@ function populateTimes(selectedDate) {
         }
     }
 
-    // Режим редактирования или нет дат — показываем текущее время как вариант
-    const currentTime = timeSelect.value || '10:00'; // если уже выбрано — оставляем, иначе дефолт
+    const currentTime = timeSelect.value || '10:00';
     const opt = document.createElement('option');
     opt.value = currentTime;
     opt.textContent = currentTime + ' (текущее время заказа)';
     opt.selected = true;
     timeSelect.appendChild(opt);
 
-    // Можно добавить ещё несколько типовых времён для изменения
     ['09:00', '12:00', '15:00', '18:00'].forEach(t => {
         if (t !== currentTime) {
             const opt = document.createElement('option');
@@ -210,7 +199,6 @@ function populateTimes(selectedDate) {
     calculateAndShowPrice();
 }
 
-// Расчёт цены
 function calculateAndShowPrice() {
     if (!currentCourseData) return;
 
@@ -258,7 +246,6 @@ function calculateAndShowPrice() {
     document.getElementById('auto-discounts').innerHTML = discText;
 }
 
-// Отправка заявки
 async function submitOrder() {
     if (!currentCourseData) return showNotification('Нет данных о заявке', 'danger');
 
@@ -269,7 +256,7 @@ async function submitOrder() {
 
     const isEdit = !!currentCourseData.editOrderId;
     const method = isEdit ? 'PUT' : 'POST';
-    const url = isEdit ? `${API_BASE}/orders/${currentCourseData.editOrderId}?api_key=${API_KEY}` : `${API_BASE}/orders?api_key=${API_KEY}`;
+    const url = isEdit ? `${API_BASE}/orders/${currentCourseData.editOrderId}?api_key=${appkkk}` : `${API_BASE}/orders?api_key=${appkkk}`;
 
     const body = {
         course_id: currentCourseData.type === 'course' ? currentCourseData.id : null,
@@ -308,13 +295,12 @@ async function submitOrder() {
     }
 }
 
-// Загрузка заказов (cabinet.html)
 async function loadOrders(page = 1) {
     const tbody = document.getElementById('orders-body');
     if (!tbody) return;
 
     try {
-        const res = await fetch(`${API_BASE}/orders?api_key=${API_KEY}`);
+        const res = await fetch(`${API_BASE}/orders?api_key=${appkkk}`);
         if (!res.ok) throw new Error(await res.text());
 
         let orders = await res.json();
@@ -351,10 +337,9 @@ async function loadOrders(page = 1) {
     }
 }
 
-// Подробнее о заказе
 async function showOrderDetails(id) {
     try {
-        const res = await fetch(`${API_BASE}/orders/${id}?api_key=${API_KEY}`);
+        const res = await fetch(`${API_BASE}/orders/${id}?api_key=${appkkk}`);
         if (!res.ok) throw new Error(await res.text());
 
         const order = await res.json();
@@ -382,15 +367,13 @@ async function showOrderDetails(id) {
     }
 }
 
-// Редактирование заказа
 async function openEditOrderModal(id) {
     try {
-        const res = await fetch(`${API_BASE}/orders/${id}?api_key=${API_KEY}`);
+        const res = await fetch(`${API_BASE}/orders/${id}?api_key=${appkkk}`);
         if (!res.ok) throw new Error(await res.text());
 
         const order = await res.json();
 
-        // Создаём объект данных ПЕРЕД любыми вызовами populateTimes
         currentCourseData = {
             type: order.course_id ? 'course' : 'tutor',
             id: order.course_id || order.tutor_id,
@@ -398,7 +381,7 @@ async function openEditOrderModal(id) {
             totalWeeks: 1,
             hoursPerWeek: 1,
             feePerHour: 500,
-            startDates: []  // при редактировании дат нет — используем только текущую
+            startDates: []
         };
 
         const nameEl = document.getElementById('order-name');
@@ -417,7 +400,6 @@ async function openEditOrderModal(id) {
             opt.selected = true;
             dateEl.appendChild(opt);
 
-            // Теперь безопасно заполняем время
             populateTimes(currentDate);
         }
 
@@ -442,11 +424,10 @@ async function openEditOrderModal(id) {
     }
 }
 
-// Удаление заказа
 function confirmDeleteOrder(id) {
     if (!confirm('Удалить заявку №' + id + '?')) return;
 
-    fetch(`${API_BASE}/orders/${id}?api_key=${API_KEY}`, { method: 'DELETE' })
+    fetch(`${API_BASE}/orders/${id}?api_key=${appkkk}`, { method: 'DELETE' })
         .then(res => {
             if (res.ok) {
                 showNotification('Заявка удалена', 'success');
@@ -458,7 +439,6 @@ function confirmDeleteOrder(id) {
         .catch(err => showNotification('Ошибка удаления: ' + err.message, 'danger'));
 }
 
-// Инициализация
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('courses-body')) {
         loadCourses();
