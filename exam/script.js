@@ -1,5 +1,5 @@
-const API_BASE = 'https://exam-api-courses.std-900.ist.mospolytech.ru/api';
-const appkkk = '37a9b8fd-91a9-4b31-b322-89553ccc0c94';
+const API_BASE_URL = 'https://exam-api-courses.std-900.ist.mospolytech.ru/api';
+const API_KEY = '37a9b8fd-91a9-4b31-b322-89553ccc0c94';
 const PER_PAGE = 5;
 
 let currentCourseData = null;
@@ -17,12 +17,34 @@ function showNotification(message, type = 'success') {
     setTimeout(() => alert.remove(), 5000);
 }
 
+function getApiUrl(endpoint) {
+    if (!API_KEY) {
+        console.error('API ключ не установлен!');
+        showNotification('Ошибка: API ключ не установлен', 'danger');
+        return null;
+    }
+
+    const normalizedEndpoint = endpoint.startsWith('/') ? endpoint : '/' + endpoint;
+    const originalUrl = `${API_BASE_URL}${normalizedEndpoint}?api_key=${API_KEY}`;
+
+    if (window.location.hostname.includes('github.io')) {
+        const proxyUrl = 'https://api.allorigins.win/raw?url=' + encodeURIComponent(originalUrl);
+        console.log('🌐 Используем прокси для GitHub Pages');
+        return proxyUrl;
+    }
+
+    return originalUrl;
+}
+
 async function loadCourses(page = 1, searchName = '', searchLevel = '') {
     const tbody = document.getElementById('courses-body');
     if (!tbody) return;
 
+    const url = getApiUrl('/courses');
+    if (!url) return;
+
     try {
-        const res = await fetch(`${API_BASE}/courses?api_key=${appkkk}`);
+        const res = await fetch(url);
         if (!res.ok) throw new Error(await res.text());
 
         let courses = await res.json();
@@ -65,8 +87,11 @@ async function loadTutors(qual = '', exp = '') {
     const tbody = document.getElementById('tutors-body');
     if (!tbody) return;
 
+    const url = getApiUrl('/tutors');
+    if (!url) return;
+
     try {
-        const res = await fetch(`${API_BASE}/tutors?api_key=${appkkk}`);
+        const res = await fetch(url);
         if (!res.ok) throw new Error(await res.text());
 
         let tutors = await res.json();
@@ -89,6 +114,213 @@ async function loadTutors(qual = '', exp = '') {
     } catch (e) {
         showNotification('Ошибка репетиторов: ' + e.message, 'danger');
     }
+}
+
+async function loadOrders(page = 1) {
+    const tbody = document.getElementById('orders-body');
+    if (!tbody) return;
+
+    const url = getApiUrl('/orders');
+    if (!url) return;
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(await res.text());
+
+        let orders = await res.json();
+
+        const total = orders.length;
+        const start = (page - 1) * PER_PAGE;
+        const paginated = orders.slice(start, start + PER_PAGE);
+
+        tbody.innerHTML = paginated.map(o => `
+            <tr>
+                <td>${o.id}</td>
+                <td>${o.course_id ? 'Курс #' + o.course_id : 'Репетитор #' + o.tutor_id}</td>
+                <td>${o.date_start} ${o.time_start}</td>
+                <td>${o.price} ₽</td>
+                <td>
+                    <button class="btn btn-info btn-sm me-1" onclick="showOrderDetails(${o.id})">Подробнее</button>
+                    <button class="btn btn-warning btn-sm me-1" onclick="openEditOrderModal(${o.id})">Изменить</button>
+                    <button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder(${o.id})">Удалить</button>
+                </td>
+            </tr>
+        `).join('');
+
+        const pag = document.getElementById('orders-pagination');
+        if (pag) {
+            let html = '';
+            const pages = Math.ceil(total / PER_PAGE);
+            for (let i = 1; i <= pages; i++) {
+                html += `<li class="page-item ${i===page?'active':''}"><a class="page-link" href="#" onclick="loadOrders(${i})">${i}</a></li>`;
+            }
+            pag.innerHTML = html || '<li class="page-item disabled"><span class="page-link">Нет заказов</span></li>';
+        }
+    } catch (e) {
+        showNotification('Ошибка загрузки заказов: ' + e.message, 'danger');
+    }
+}
+
+async function showOrderDetails(id) {
+    const url = getApiUrl(`/orders/${id}`);
+    if (!url) return;
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(await res.text());
+
+        const order = await res.json();
+
+        const body = document.getElementById('details-body');
+        if (body) {
+            body.innerHTML = `
+                <p><strong>№:</strong> ${order.id}</p>
+                <p><strong>Дата и время:</strong> ${order.date_start} ${order.time_start}</p>
+                <p><strong>Продолжительность:</strong> ${order.duration} ч</p>
+                <p><strong>Студентов:</strong> ${order.persons}</p>
+                <p><strong>Стоимость:</strong> ${order.price} ₽</p>
+                <p><strong>Опции:</strong></p>
+                <ul>
+                    <li>Ранняя регистрация: ${order.early_registration ? 'Да' : 'Нет'}</li>
+                    <li>Группа: ${order.group_enrollment ? 'Да' : 'Нет'}</li>
+                    <li>Интенсив: ${order.intensive_course ? 'Да' : 'Нет'}</li>
+                    <li>Доп. материалы: ${order.supplementary ? 'Да' : 'Нет'}</li>
+                </ul>
+            `;
+            new bootstrap.Modal(document.getElementById('details-modal')).show();
+        }
+    } catch (err) {
+        showNotification('Ошибка деталей: ' + err.message, 'danger');
+    }
+}
+
+async function openEditOrderModal(id) {
+    const url = getApiUrl(`/orders/${id}`);
+    if (!url) return;
+
+    try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error(await res.text());
+
+        const order = await res.json();
+
+        currentCourseData = {
+            type: order.course_id ? 'course' : 'tutor',
+            id: order.course_id || order.tutor_id,
+            editOrderId: id,
+            totalWeeks: 1,
+            hoursPerWeek: 1,
+            feePerHour: 500,
+            startDates: []
+        };
+
+        const nameEl = document.getElementById('order-name');
+        if (nameEl) nameEl.value = `Заказ №${order.id} (редактирование)`;
+
+        const teacherEl = document.getElementById('order-teacher');
+        if (teacherEl) teacherEl.value = 'Изменение заказа';
+
+        const dateEl = document.getElementById('start-date');
+        if (dateEl) {
+            dateEl.innerHTML = '<option value="">Выберите дату</option>';
+            const currentDate = order.date_start;
+            const opt = document.createElement('option');
+            opt.value = currentDate;
+            opt.textContent = new Date(currentDate).toLocaleDateString('ru-RU');
+            opt.selected = true;
+            dateEl.appendChild(opt);
+
+            populateTimes(currentDate);
+        }
+
+        const timeEl = document.getElementById('start-time');
+        if (timeEl) timeEl.value = order.time_start || '';
+
+        const personsEl = document.getElementById('persons');
+        if (personsEl) personsEl.value = order.persons || 1;
+
+        ['supplementary', 'personalized', 'excursions', 'assessment', 'interactive'].forEach(key => {
+            const el = document.getElementById(key);
+            if (el) el.checked = !!order[key];
+        });
+
+        document.getElementById('orderModalLabel').textContent = 'Редактирование заявки';
+
+        calculateAndShowPrice();
+
+        new bootstrap.Modal(document.getElementById('order-modal')).show();
+    } catch (err) {
+        showNotification('Ошибка при открытии редактирования: ' + err.message, 'danger');
+    }
+}
+
+async function submitOrder() {
+    if (!currentCourseData) return showNotification('Нет данных о заявке', 'danger');
+
+    const dateEl = document.getElementById('start-date');
+    const timeEl = document.getElementById('start-time');
+
+    if (!dateEl.value || !timeEl.value) return showNotification('Дата и время обязательны', 'warning');
+
+    const isEdit = !!currentCourseData.editOrderId;
+    const method = isEdit ? 'PUT' : 'POST';
+
+    let url = getApiUrl(isEdit ? `/orders/${currentCourseData.editOrderId}` : '/orders');
+    if (!url) return;
+
+    const body = {
+        course_id: currentCourseData.type === 'course' ? currentCourseData.id : null,
+        tutor_id: currentCourseData.type === 'tutor' ? currentCourseData.id : null,
+        date_start: dateEl.value,
+        time_start: timeEl.value,
+        duration: Number(document.getElementById('duration')?.value.replace(/\D/g,'')) || 1,
+        persons: Number(document.getElementById('persons')?.value) || 1,
+        price: Number(document.getElementById('price')?.value.replace(/\D/g,'')),
+        early_registration: (new Date(`${dateEl.value}T${timeEl.value}`) - new Date()) / (86400*1000) >= 30,
+        group_enrollment: Number(document.getElementById('persons')?.value) >= 5,
+        intensive_course: currentCourseData.hoursPerWeek >= 5,
+        supplementary: !!document.getElementById('supplementary')?.checked,
+        personalized: !!document.getElementById('personalized')?.checked,
+        excursions: !!document.getElementById('excursions')?.checked,
+        assessment: !!document.getElementById('assessment')?.checked,
+        interactive: !!document.getElementById('interactive')?.checked
+    };
+
+    try {
+        const res = await fetch(url, {
+            method,
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify(body)
+        });
+
+        if (res.ok) {
+            showNotification(isEdit ? 'Заявка обновлена' : 'Заявка создана', 'success');
+            bootstrap.Modal.getInstance(document.getElementById('order-modal')).hide();
+            if (document.getElementById('orders-body')) loadOrders();
+        } else {
+            showNotification('Ошибка сервера: ' + await res.text(), 'danger');
+        }
+    } catch (err) {
+        showNotification('Ошибка: ' + err.message, 'danger');
+    }
+}
+
+function confirmDeleteOrder(id) {
+    if (!confirm('Удалить заявку №' + id + '?')) return;
+
+    const url = getApiUrl(`/orders/${id}`);
+    if (!url) return;
+
+    fetch(url, { method: 'DELETE' })
+        .then(res => {
+            if (res.ok) {
+                showNotification('Заявка удалена', 'success');
+                loadOrders();
+            } else {
+                showNotification('Не удалось удалить', 'danger');
+            }
+        })
+        .catch(err => showNotification('Ошибка удаления: ' + err.message, 'danger'));
 }
 
 function selectTutor(id, name, price) {
@@ -246,198 +478,6 @@ function calculateAndShowPrice() {
     document.getElementById('auto-discounts').innerHTML = discText;
 }
 
-async function submitOrder() {
-    if (!currentCourseData) return showNotification('Нет данных о заявке', 'danger');
-
-    const dateEl = document.getElementById('start-date');
-    const timeEl = document.getElementById('start-time');
-
-    if (!dateEl.value || !timeEl.value) return showNotification('Дата и время обязательны', 'warning');
-
-    const isEdit = !!currentCourseData.editOrderId;
-    const method = isEdit ? 'PUT' : 'POST';
-    const url = isEdit ? `${API_BASE}/orders/${currentCourseData.editOrderId}?api_key=${appkkk}` : `${API_BASE}/orders?api_key=${appkkk}`;
-
-    const body = {
-        course_id: currentCourseData.type === 'course' ? currentCourseData.id : null,
-        tutor_id: currentCourseData.type === 'tutor' ? currentCourseData.id : null,
-        date_start: dateEl.value,
-        time_start: timeEl.value,
-        duration: Number(document.getElementById('duration')?.value.replace(/\D/g,'')) || 1,
-        persons: Number(document.getElementById('persons')?.value) || 1,
-        price: Number(document.getElementById('price')?.value.replace(/\D/g,'')),
-        early_registration: (new Date(`${dateEl.value}T${timeEl.value}`) - new Date()) / (86400*1000) >= 30,
-        group_enrollment: Number(document.getElementById('persons')?.value) >= 5,
-        intensive_course: currentCourseData.hoursPerWeek >= 5,
-        supplementary: !!document.getElementById('supplementary')?.checked,
-        personalized: !!document.getElementById('personalized')?.checked,
-        excursions: !!document.getElementById('excursions')?.checked,
-        assessment: !!document.getElementById('assessment')?.checked,
-        interactive: !!document.getElementById('interactive')?.checked
-    };
-
-    try {
-        const res = await fetch(url, {
-            method,
-            headers: {'Content-Type': 'application/json'},
-            body: JSON.stringify(body)
-        });
-
-        if (res.ok) {
-            showNotification(isEdit ? 'Заявка обновлена' : 'Заявка создана', 'success');
-            bootstrap.Modal.getInstance(document.getElementById('order-modal')).hide();
-            if (document.getElementById('orders-body')) loadOrders();
-        } else {
-            showNotification('Ошибка сервера: ' + await res.text(), 'danger');
-        }
-    } catch (err) {
-        showNotification('Ошибка: ' + err.message, 'danger');
-    }
-}
-
-async function loadOrders(page = 1) {
-    const tbody = document.getElementById('orders-body');
-    if (!tbody) return;
-
-    try {
-        const res = await fetch(`${API_BASE}/orders?api_key=${appkkk}`);
-        if (!res.ok) throw new Error(await res.text());
-
-        let orders = await res.json();
-
-        const total = orders.length;
-        const start = (page - 1) * PER_PAGE;
-        const paginated = orders.slice(start, start + PER_PAGE);
-
-        tbody.innerHTML = paginated.map(o => `
-            <tr>
-                <td>${o.id}</td>
-                <td>${o.course_id ? 'Курс #' + o.course_id : 'Репетитор #' + o.tutor_id}</td>
-                <td>${o.date_start} ${o.time_start}</td>
-                <td>${o.price} ₽</td>
-                <td>
-                    <button class="btn btn-info btn-sm me-1" onclick="showOrderDetails(${o.id})">Подробнее</button>
-                    <button class="btn btn-warning btn-sm me-1" onclick="openEditOrderModal(${o.id})">Изменить</button>
-                    <button class="btn btn-danger btn-sm" onclick="confirmDeleteOrder(${o.id})">Удалить</button>
-                </td>
-            </tr>
-        `).join('');
-
-        const pag = document.getElementById('orders-pagination');
-        if (pag) {
-            let html = '';
-            const pages = Math.ceil(total / PER_PAGE);
-            for (let i = 1; i <= pages; i++) {
-                html += `<li class="page-item ${i===page?'active':''}"><a class="page-link" href="#" onclick="loadOrders(${i})">${i}</a></li>`;
-            }
-            pag.innerHTML = html || '<li class="page-item disabled"><span class="page-link">Нет заказов</span></li>';
-        }
-    } catch (e) {
-        showNotification('Ошибка загрузки заказов: ' + e.message, 'danger');
-    }
-}
-
-async function showOrderDetails(id) {
-    try {
-        const res = await fetch(`${API_BASE}/orders/${id}?api_key=${appkkk}`);
-        if (!res.ok) throw new Error(await res.text());
-
-        const order = await res.json();
-
-        const body = document.getElementById('details-body');
-        if (body) {
-            body.innerHTML = `
-                <p><strong>№:</strong> ${order.id}</p>
-                <p><strong>Дата и время:</strong> ${order.date_start} ${order.time_start}</p>
-                <p><strong>Продолжительность:</strong> ${order.duration} ч</p>
-                <p><strong>Студентов:</strong> ${order.persons}</p>
-                <p><strong>Стоимость:</strong> ${order.price} ₽</p>
-                <p><strong>Опции:</strong></p>
-                <ul>
-                    <li>Ранняя регистрация: ${order.early_registration ? 'Да' : 'Нет'}</li>
-                    <li>Группа: ${order.group_enrollment ? 'Да' : 'Нет'}</li>
-                    <li>Интенсив: ${order.intensive_course ? 'Да' : 'Нет'}</li>
-                    <li>Доп. материалы: ${order.supplementary ? 'Да' : 'Нет'}</li>
-                </ul>
-            `;
-            new bootstrap.Modal(document.getElementById('details-modal')).show();
-        }
-    } catch (err) {
-        showNotification('Ошибка деталей: ' + err.message, 'danger');
-    }
-}
-
-async function openEditOrderModal(id) {
-    try {
-        const res = await fetch(`${API_BASE}/orders/${id}?api_key=${appkkk}`);
-        if (!res.ok) throw new Error(await res.text());
-
-        const order = await res.json();
-
-        currentCourseData = {
-            type: order.course_id ? 'course' : 'tutor',
-            id: order.course_id || order.tutor_id,
-            editOrderId: id,
-            totalWeeks: 1,
-            hoursPerWeek: 1,
-            feePerHour: 500,
-            startDates: []
-        };
-
-        const nameEl = document.getElementById('order-name');
-        if (nameEl) nameEl.value = `Заказ №${order.id} (редактирование)`;
-
-        const teacherEl = document.getElementById('order-teacher');
-        if (teacherEl) teacherEl.value = 'Изменение заказа';
-
-        const dateEl = document.getElementById('start-date');
-        if (dateEl) {
-            dateEl.innerHTML = '<option value="">Выберите дату</option>';
-            const currentDate = order.date_start;
-            const opt = document.createElement('option');
-            opt.value = currentDate;
-            opt.textContent = new Date(currentDate).toLocaleDateString('ru-RU');
-            opt.selected = true;
-            dateEl.appendChild(opt);
-
-            populateTimes(currentDate);
-        }
-
-        const timeEl = document.getElementById('start-time');
-        if (timeEl) timeEl.value = order.time_start || '';
-
-        const personsEl = document.getElementById('persons');
-        if (personsEl) personsEl.value = order.persons || 1;
-
-        ['supplementary', 'personalized', 'excursions', 'assessment', 'interactive'].forEach(key => {
-            const el = document.getElementById(key);
-            if (el) el.checked = !!order[key];
-        });
-
-        document.getElementById('orderModalLabel').textContent = 'Редактирование заявки';
-
-        calculateAndShowPrice();
-
-        new bootstrap.Modal(document.getElementById('order-modal')).show();
-    } catch (err) {
-        showNotification('Ошибка при открытии редактирования: ' + err.message, 'danger');
-    }
-}
-
-function confirmDeleteOrder(id) {
-    if (!confirm('Удалить заявку №' + id + '?')) return;
-
-    fetch(`${API_BASE}/orders/${id}?api_key=${appkkk}`, { method: 'DELETE' })
-        .then(res => {
-            if (res.ok) {
-                showNotification('Заявка удалена', 'success');
-                loadOrders();
-            } else {
-                showNotification('Не удалось удалить', 'danger');
-            }
-        })
-        .catch(err => showNotification('Ошибка удаления: ' + err.message, 'danger'));
-}
 
 document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('courses-body')) {
