@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Личный кабинет - Языковая Школа</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Шапка -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-primary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Языковая Школа</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Главная</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Уведомления -->
+    <div id="notifications" class="container mt-3"></div>
+
+    <!-- Таблица заказов -->
+    <section class="container my-5">
+        <h2>Ваши заказы</h2>
+        <table class="table table-striped" id="orders-table">
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Курс/Репетитор</th>
+                    <th>Дата занятия</th>
+                    <th>Стоимость</th>
+                    <th>Действия</th>
+                </tr>
+            </thead>
+            <tbody id="orders-body"></tbody>
+        </table>
+        <nav aria-label="Пагинация заказов">
+            <ul class="pagination justify-content-center" id="orders-pagination"></ul>
+        </nav>
+    </section>
+
+    <!-- Футер -->
+    <footer class="bg-light py-3 text-center">
+        <p>Контакты: info@langschool.ru | +7 (495) 123-45-67</p>
+    </footer>
+
+    <!-- Модальное окно для деталей заказа -->
+    <div class="modal fade" id="details-modal" tabindex="-1" aria-labelledby="detailsModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="detailsModalLabel">Подробнее о заказе</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body" id="details-body">
+                    <!-- Здесь будет динамически подставляться информация -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно подтверждения удаления -->
+    <div class="modal fade" id="delete-confirm-modal" tabindex="-1" aria-labelledby="deleteConfirmLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmLabel">Подтверждение удаления</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    Вы уверены, что хотите удалить заявку?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Нет</button>
+                    <button type="button" class="btn btn-danger" id="confirm-delete">Да</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно оформления / редактирования заявки (ТОЧНО ТАКОЕ ЖЕ, КАК В INDEX.HTML) -->
+    <div class="modal fade" id="order-modal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="orderModalLabel">Оформление заявки</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form id="order-form">
+                        <input type="hidden" id="order-type" value="">
+                        <input type="hidden" id="order-id" value="">
+                        <div class="mb-3">
+                            <label for="order-name" class="form-label">Название</label>
+                            <input type="text" class="form-control" id="order-name" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="order-teacher" class="form-label">Преподаватель</label>
+                            <input type="text" class="form-control" id="order-teacher" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="start-date" class="form-label">Дата начала</label>
+                            <select class="form-select" id="start-date"></select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="start-time" class="form-label">Время начала</label>
+                            <select class="form-select" id="start-time" disabled></select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="duration" class="form-label">Продолжительность</label>
+                            <input type="text" class="form-control" id="duration" readonly>
+                        </div>
+                        <div class="mb-3">
+                            <label for="persons" class="form-label">Количество студентов (1-20)</label>
+                            <input type="number" class="form-control" id="persons" min="1" max="20" value="1">
+                        </div>
+                        <div class="mb-3">
+                            <label class="form-label">Дополнительные опции</label>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="supplementary">
+                                <label class="form-check-label" for="supplementary">Доп. материалы (+2000/студент)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="personalized">
+                                <label class="form-check-label" for="personalized">Индивидуальные занятия (+1500/неделя)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="excursions">
+                                <label class="form-check-label" for="excursions">Культурные экскурсии (+25%)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="assessment">
+                                <label class="form-check-label" for="assessment">Оценка уровня (+300)</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" id="interactive">
+                                <label class="form-check-label" for="interactive">Интерактивная платформа (+50%)</label>
+                            </div>
+                            <div id="auto-discounts" class="mt-2"></div> <!-- Плашки для авто-скидок -->
+                        </div>
+                        <div class="mb-3">
+                            <label for="price" class="form-label">Общая стоимость</label>
+                            <input type="text" class="form-control" id="price" readonly>
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Отмена</button>
+                    <button type="button" class="btn btn-primary" onclick="submitOrder()">Отправить</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
